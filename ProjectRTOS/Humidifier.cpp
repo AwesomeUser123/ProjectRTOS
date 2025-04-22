@@ -27,31 +27,36 @@ void Humidifier::Off78()  {
 }
 
 void Humidifier::Humidifier_run()   {
-  if (HumidTimeCount == 0)  {
-    if (*humidity<=HumidThreshold)   {
-      Green78();
-      HumidTimeCount++;
-    }
-    else  {
-      Off78();
-    }
-  }
-  else {
-    if (HumidTimeCount <= 4)  {
-      Green78();
-      HumidTimeCount++;
-    }
-    else if (HumidTimeCount <= 7)    {
-      Yellow78();
-      HumidTimeCount++;
-    }
-    else if (HumidTimeCount <=9)  {
-      Red78();
-      HumidTimeCount++;
-    }
-    else  {
-      HumidTimeCount=0;
-      Off78();
-    }
+  switch (HumidTimeCount) {
+      case 0:
+        if (*humidity<=HumidThreshold)   {
+           Green78();
+           HumidTimeCount++;
+        }
+        else  {
+           Off78();
+        }
+        break;
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+        Green78();
+        HumidTimeCount++;
+        break;
+      case 5:
+      case 6:
+      case 7:
+        Yellow78();
+        HumidTimeCount++;
+        break;
+      case 8:
+      case 9:
+        Red78();
+        HumidTimeCount++;
+        break;
+      default:
+        HumidTimeCount=0;
+        Off78();
   }
 }
